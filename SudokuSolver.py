@@ -1,81 +1,26 @@
 
-# precondition: (x, y) is a free spot
+# check if a given value is allowed at the given coordinate
 def check(sudoku, x, y, value):
     # first step: check the box
     pos = getPos(x, y)
-    if pos == "bottomleft" and (sudoku[x+1][y] == value or sudoku[x+2][y] == value or
-                                sudoku[x][y+1] == value or sudoku[x+1][y+1] == value or sudoku[x+2][y+1] == value or
-                                sudoku[x][y+2] == value or sudoku[x+1][y+2] == value or sudoku[x+2][y+2] == value):
-        return False
-    if pos == "bottommid" and (sudoku[x+1][y] == value or sudoku[x-1][y] == value or
-                               sudoku[x][y+1] == value or sudoku[x+1][y+1] == value or sudoku[x-1][y+1] == value or
-                               sudoku[x][y+2] == value or sudoku[x+1][y+2] == value or sudoku[x-1][y+2] == value):
-        return False
-    if pos == "bottomright" and (sudoku[x-1][y] == value or sudoku[x-2][y] == value or
-                                 sudoku[x][y+1] == value or sudoku[x-1][y+1] == value or sudoku[x-2][y+1] == value or
-                                 sudoku[x][y+2] == value or sudoku[x-1][y+2] == value or sudoku[x-2][y+2] == value):
-        return False
-    if pos == "midleft" and (sudoku[x+1][y] == value or sudoku[x+2][y] == value or
-                             sudoku[x][y+1] == value or sudoku[x+1][y+1] == value or sudoku[x+2][y+1] == value or
-                             sudoku[x][y-1] == value or sudoku[x+1][y-1] == value or sudoku[x+2][y-1] == value):
-        return False
-    if pos == "midmid" and (sudoku[x+1][y] == value or sudoku[x-1][y] == value or
-                            sudoku[x][y+1] == value or sudoku[x+1][y+1] == value or sudoku[x-1][y+1] == value or
-                            sudoku[x][y-1] == value or sudoku[x+1][y-1] == value or sudoku[x-1][y-1] == value):
-        return False
-    if pos == "midright" and (sudoku[x-1][y] == value or sudoku[x-2][y] == value or
-                              sudoku[x][y+1] == value or sudoku[x-1][y+1] == value or sudoku[x-2][y+1] == value or
-                              sudoku[x][y-1] == value or sudoku[x-1][y-1] == value or sudoku[x-2][y-1] == value):
-        return False
-    if pos == "topleft" and (sudoku[x+1][y] == value or sudoku[x+2][y] == value or
-                             sudoku[x][y-1] == value or sudoku[x+1][y-1] == value or sudoku[x+2][y-1] == value or
-                             sudoku[x][y-2] == value or sudoku[x+1][y-2] == value or sudoku[x+2][y-2] == value):
-        return False
-    if pos == "topmid" and (sudoku[x+1][y] == value or sudoku[x-1][y] == value or
-                            sudoku[x][y-1] == value or sudoku[x+1][y-1] == value or sudoku[x-1][y-1] == value or
-                            sudoku[x][y-2] == value or sudoku[x+1][y-2] == value or sudoku[x-1][y-2] == value):
-        return False
-    if pos == "topright" and (sudoku[x-1][y] == value or sudoku[x-2][y] == value or
-                              sudoku[x][y-1] == value or sudoku[x-1][y-1] == value or sudoku[x-2][y-1] == value or
-                              sudoku[x][y-2] == value or sudoku[x-1][y-2] == value or sudoku[x-2][y-2] == value):
-        return False
+    x0 = (x // 3) * 3
+    y0 = (y // 3) * 3
+    for x in range(x0, x0 + 3):
+        for y in range(y0, y0 + 3):
+            if sudoku[x][y] == value:
+                return False
     # second step: check the horizontal
-    for rightIter in range(x + 1, 9):
-        if sudoku[rightIter][y] == value:
-            return False
-    for leftIter in range(0, x):
-        if sudoku[leftIter][y] == value:
+    for horizontal in range(0, 9):
+        if sudoku[horizontal][y] == value:
             return False
     # third step: check the vertical
-    for upwardsIter in range(y + 1, 9):
-        if sudoku[x][upwardsIter] == value:
-            return False
-    for downwartsIter in range(0, y):
-        if sudoku[x][downwartsIter] == value:
+    for vertical in range(0, 9):
+        if sudoku[x][vertical] == value:
             return False
     return True
 
 
-# determine the position of the coordinate (x, y) in the 3x3 box
-def getPos(x, y):
-    pos = ""
-    if y % 3 == 0:
-        pos += "bottom"
-    elif y % 3 == 1:
-        pos += "mid"
-    else:
-        pos += "top"
-    if x % 3 == 0:
-        pos += "left"
-    elif x % 3 == 1:
-        pos += "mid"
-    else:
-        pos += "right"
-    return pos
-
 # get the next free spot of the sudoku grid
-
-
 def nextSpot(sudoku):
     for x in range(9):
         for y in range(9):
@@ -124,5 +69,3 @@ mySudoku2 = [[6, 5, 0, 3, 0, 0, 0, 0, 0],
 
 solveSudoku(mySudoku2)
 print(mySudoku2)
-
-# This is a git push test
