@@ -2,7 +2,6 @@
 # check if a given value is allowed at the given coordinate
 def check(sudoku, x, y, value):
     # first step: check the box
-    pos = getPos(x, y)
     x0 = (x // 3) * 3
     y0 = (y // 3) * 3
     for x in range(x0, x0 + 3):
